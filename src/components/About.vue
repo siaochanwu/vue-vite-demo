@@ -1,9 +1,14 @@
-<script setup>
-  import Datepicker from 'vue3-datepicker'
+<script setup> //每次组件实例被创建的时候执行
   import { ref } from 'vue'
+
+  import Datepicker from 'vue3-datepicker'
   import { zhTW } from 'date-fns/locale' //選擇語系
 
+  import Nav from './Nav.vue'
+
+  const name = ref('')
   let picked = ref(new Date())
+
   console.log(new Date().getFullYear() - 1911) //110
   picked.value.setFullYear(picked.value.getFullYear() - 1911) //調整為民國年
 
@@ -15,17 +20,20 @@
   function toggleModal() {
     document.getElementById('modal').classList.toggle('hidden')
   }
+
+  function alert() {
+    window.alert("Hi " + name.value)
+  }
 </script>
 
 <template>
 <div class="text-center bg-yellow-100">
-  <router-link class="font-mono text-xl my-3" to="/">Hello World/</router-link>
-  <router-link class="font-mono text-xl my-3" to="/about">About World</router-link>
-  <h1>abouttt</h1>
+
+  <Nav />
   
   <!-- 加入modal -->
   <div class="flex items-center justify-center h-full">
-    <button class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700" @click="toggleModal()">Show Modal</button>
+    <button class="m-5 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700" @click="toggleModal()">Show Modal</button>
   </div>
 
   <div class="fixed z-10 overflow-y-auto top-0 w-full left-0 hidden" id="modal">
@@ -49,7 +57,14 @@
     </div>
   </div>
   <!-- Vue3 datepicker 尚無法更改title格式 -->
-  <datepicker class="my-5 p-2" v-model="picked" inputFormat="yyy-MM-dd" :upper-limit="end" :lower-limit="start" :locale="zhTW" />
+  <form action="" class="border-dashed border-4 border-blue-500 w-2/12 mx-auto bg-blue-100 text-left p-5">
+    <label for="">Date:</label>
+    <datepicker class="my-5 p-2" v-model="picked" inputFormat="yyy-MM-dd" :upper-limit="end" :lower-limit="start" :locale="zhTW" />
+    <label for="" class="block">Name:</label>
+    <input class="p-2" type="text" placeholder="type your name" v-model="name">
+    <button class="mt-5 p-2 bg-red-300 rounded hover:bg-green-500 hover:text-white block" @click="alert">alert btn</button>
+  </form>
+  
 </div>
    
 </template>
